@@ -1,23 +1,28 @@
 package mo.example
 import zio._, zio.console._
 
-import scala.util.Try
-import scala.io.Source
-import scala.util.Success
-import scala.util.Failure
-import java.io.IOException
-
 import mo.example.fileStuff.FileIO 
+
+import mo.example.http.Http4Server.Http4Server
+import mo.example.http.Http4Server 
+import org.http4s.server.Server
+//import //Http4Server.Http4Server
+//https://github.com/kovacshuni/zio-http4s-zlayer-example
 
 object Main extends zio.App {
  
-  val appLogic:ZIO[FileIO,Throwable,Unit] = {
-    FileIO.copyFileZIO()
-  }
+  //file read
+  // val appLogic:ZIO[FileIO,Throwable,Unit] = {
+  //   FileIO.copyFileZIO()
+  // }
+
+    val appLogic:ZIO[Has[Server] with Console, Nothing, Nothing] = ZIO.never
 
   def run(args: List[String]) =  appLogic.provideLayer(prepareEnvironment).exitCode
 
-  private val prepareEnvironment: URLayer[Console, FileIO] = FileIO.live 
+  val httpServerLayer: ZLayer[ZEnv, Throwable, Http4Server] = Http4Server.createHttp4sLayer
+
+  private val prepareEnvironment = httpServerLayer ++ Console.live //++ FileIO.live 
   
 
 }
