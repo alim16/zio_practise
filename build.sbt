@@ -15,8 +15,8 @@ libraryDependencies ++= Seq(
   "dev.zio"    %% "zio"                 % zioVersion,
   "org.http4s" %% "http4s-blaze-server" % http4sVersion,
   "org.http4s" %% "http4s-dsl"          % http4sVersion,
-  "dev.zio"    %% "zio-interop-cats"    % "2.2.0.1"
-  // "dev.zio" %% "zio-streams" % zioVersion
+  "dev.zio"    %% "zio-interop-cats"    % "2.2.0.1",
+  "dev.zio" %% "zio-streams" % zioVersion
 )
 
 // scalacOptions ++= Seq(
