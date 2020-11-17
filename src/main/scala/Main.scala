@@ -3,7 +3,6 @@ import zio._, zio.console._
 
 import mo.example.fileStuff.FileIO 
 import mo.example.streaming.StreamingStuff
-
 import mo.example.http.Http4Server.Http4Server
 import mo.example.http.Http4Server 
 import org.http4s.server.Server
@@ -22,7 +21,7 @@ object Main extends zio.App {
     _ <- putStrLn(s"the numbers are: ${n.toString}")
     serverFiber <- ZIO.never.fork
     _ <- putStrLn("server is running on localhost:8080")
-    //the next line kills the main fiber after 30s witch kills the child server fiber
+    //the next line kills the main fiber after 30s which kills the child server fiber
     _ <- ZIO.sleep(30.seconds) *> putStrLn("30 seconds over: shutting down server...")
   } yield  () //ExitCode.success
 
