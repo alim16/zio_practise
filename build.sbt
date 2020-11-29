@@ -11,21 +11,23 @@ lazy val rootProject = project
   .in(file("."))
   .settings(
     scalaVersion := "2.13.3",
-      libraryDependencies ++= Seq (
+    libraryDependencies ++= Seq(
       // "qa.hedgehog" %% "hedgehog-core" % hedgehogVersion,
       // "qa.hedgehog" %% "hedgehog-runner" % hedgehogVersion,
       // "qa.hedgehog" %% "hedgehog-minitest" % hedgehogVersion,
       "dev.zio"    %% "zio"                 % zioVersion,
+      "dev.zio"    %% "zio-test"            % zioVersion,
+      "dev.zio"    %% "zio-test-sbt"        % zioVersion,
       "org.http4s" %% "http4s-blaze-server" % http4sVersion,
       "org.http4s" %% "http4s-dsl"          % http4sVersion,
-      "dev.zio"    %% "zio-interop-cats"    % "2.2.0.1",
+      "dev.zio"    %% "zio-interop-cats"    % "2.2.0.1"
     )
-  ).aggregate(streaming).dependsOn(streaming)
+  )
+  .aggregate(streaming)
+  .dependsOn(streaming)
 
-  lazy val streaming      =
+lazy val streaming =
   (project in file("streaming"))
-
-  
 // scalacOptions ++= Seq(
 //   "-deprecation",
 //   "-encoding",

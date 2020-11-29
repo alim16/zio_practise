@@ -11,12 +11,14 @@ package object streaming {
   object StreamingStuff {
     trait Service {
         def numberStream() : ZIO[Any, Nothing, Chunk[Int]]
+        def readCsv(): ZStream[Any,Exception,Chunk[String]]
     }
 
     val live: ZLayer[Console,Nothing,StreamingStuff] =
       ZLayer.fromService { console =>
         new Service {
         override def numberStream() = ZStream(1,2,3,4,5).runCollect
+        override def readCsv(): ZStream[Any,Exception,Chunk[String]] = ???
         }
       }
     

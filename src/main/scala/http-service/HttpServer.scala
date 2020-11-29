@@ -14,7 +14,8 @@ package object server {
 
   object HttpServer {
     trait Service {
-      def startHttpServer():ZManaged[HttpServer, Nothing, Server]
+      //TODO:not sure about HttpServer dependency is required
+      def startHttpServer():ZManaged[HttpServer, Nothing, Server] 
     }
 
     private def startHttp4Server: ZManaged[Any, Throwable, Server] =
@@ -35,39 +36,3 @@ package object server {
   }
 
 }
-
-
-
-
-
-///////////////////////////////////////////
-
-// package object server {
-//   type HttpServer = Has[HttpServer.Service]
-
-//   object HttpServer {
-//     trait Service {
-//       def createHttpLayer():ZIO[ZEnv, Throwable, Server]
-//     }
-
-//     private def createHttp4Server: ZManaged[ZEnv, Throwable, Server] =
-//       ZManaged.runtime[ZEnv].flatMap { implicit runtime: Runtime[ZEnv] =>
-//         BlazeServerBuilder[Task](runtime.platform.executor.asEC)
-//           .bindHttp(8080, "localhost")
-//           .withHttpApp(Routes.helloWorldsService)
-//           .resource
-//           .toManagedZIO
-//       }
-
-//     val live : ZLayer[Any,Nothing,HttpServer]  = ZLayer.succeed(
-//       new Service {
-//         override def createHttpLayer() = createHttp4Server //ZLayer.fromManaged(createHttp4Server)
-//       }
-//     )
-
-//     def createHttpLayer:  URIO[HttpServer, Server] = ZIO.accessM(_.get.createHttpLayer)
-//   }
-
-//   // def createHttp4sLayer: ZLayer[ZEnv, Throwable, Http4Server] =
-//   //     ZLayer.fromManaged(createHttp4Server)
-// }
