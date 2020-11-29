@@ -8,8 +8,26 @@ import org.http4s.server.Server
 import zio.stream.ZStream
 import zio.duration._
 import zio.clock.Clock
+import zio.blocking.Blocking
 
-object Main extends zio.App {
+
+object Main1_streamRead extends zio.App{
+
+   val appLogic = 
+  for {
+       _ <- putStrLn("streaming..")
+        file =  "streaming/src/resources/Investment Org Processes2.csv"
+       stream <- StreamingStuff.readCsv(file)
+       _ <- stream.tap(putStrLn(_)).take(10).runDrain
+  } yield  ()
+
+
+  def run(args: List[String]) =  appLogic.provideLayer(prepareEnvironment).exitCode
+
+  private val prepareEnvironment =  Clock.live ++ Console.live ++ StreamingStuff.live ++ Blocking.any
+}
+
+object Main2_server extends zio.App {
  
   val appLogic = 
   for {
